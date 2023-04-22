@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 interface IStyledButtonProps {
-  $buttonSize: 'default' | 'medium';
-  $buttonStyle: 'green' | 'gray';
+  $buttonSize: "default" | "medium";
+  $buttonStyle: "green" | "gray";
 }
 
 export const StyledButtonCSS = css<IStyledButtonProps>`
@@ -22,12 +22,12 @@ export const StyledButtonCSS = css<IStyledButtonProps>`
 
   ${({ $buttonSize }) => {
     switch ($buttonSize) {
-      case 'default':
+      case "default":
         return css`
           padding: 0 30px;
           height: 60px;
         `;
-      case 'medium':
+      case "medium":
         return css`
           padding: 0 20px;
           height: 40px;
@@ -37,7 +37,7 @@ export const StyledButtonCSS = css<IStyledButtonProps>`
 
   ${({ theme, $buttonStyle }) => {
     switch ($buttonStyle) {
-      case 'green':
+      case "green":
         return css`
           color: ${theme.colors.white};
           background: ${theme.colors.primary};
@@ -45,7 +45,7 @@ export const StyledButtonCSS = css<IStyledButtonProps>`
             opacity: 0.5;
           }
         `;
-      case 'gray':
+      case "gray":
         return css`
           color: ${theme.colors.gray300};
           background: ${theme.colors.gray100};

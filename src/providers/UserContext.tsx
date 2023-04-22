@@ -32,15 +32,14 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("tokenHamburgueria2");
-    const userId = localStorage.getItem("idUserHamburgueria2");
+    const token = localStorage.getItem("@tokenHamburgueria2");
+    const userId = localStorage.getItem("@idUserHamburgueria2");
+
     const userAutoLogin = async () => {
       try {
-        const { data } = await api.get<IUser>(`/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        api.defaults.headers.authorization = `Bearer ${token}`;
+
+        const { data } = await api.get<IUser>(`/users/${userId}`);
         setUser(data);
         navigate("/shop");
       } catch (error) {
@@ -59,6 +58,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const userLogin = async (formData: ILoginUser) => {
     try {
       const { data } = await api.post<IUserLoginResponse>("/login", formData);
+      api.defaults.headers.authorization = `Bearer ${data.accessToken}`;
       localStorage.setItem("@tokenHamburgueria2", data.accessToken);
       localStorage.setItem("@idUserHamburgueria2", data.user.id);
       setUser(data.user);
