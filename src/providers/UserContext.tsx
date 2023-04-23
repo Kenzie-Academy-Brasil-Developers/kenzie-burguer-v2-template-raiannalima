@@ -3,6 +3,8 @@ import { api } from "../services/api";
 import { ICreateUser } from "../components/Form/RegisterForm";
 import { ILoginUser } from "../components/Form/LoginForm";
 import { useNavigate } from "react-router-dom";
+import { TRegisterFormValues } from "../components/Form/RegisterForm/registerFormSchema";
+import { TLoginFormValues } from "../components/Form/LoginForm/loginFormSchema";
 
 interface IUserProviderProps {
   children: React.ReactNode;
@@ -10,8 +12,8 @@ interface IUserProviderProps {
 
 interface IUserContext {
   user: IUser | null;
-  userRegister: (formData: ICreateUser) => Promise<void>;
-  userLogin: (formData: ILoginUser) => Promise<void>;
+  userRegister: (formData: TRegisterFormValues) => Promise<void>;
+  userLogin: (formData: TLoginFormValues) => Promise<void>;
   userLogOut: () => void;
 }
 
@@ -55,7 +57,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   const navigate = useNavigate();
 
-  const userLogin = async (formData: ILoginUser) => {
+  const userLogin = async (formData: TLoginFormValues) => {
     try {
       const { data } = await api.post<IUserLoginResponse>("/login", formData);
       api.defaults.headers.authorization = `Bearer ${data.accessToken}`;
@@ -68,7 +70,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     }
   };
 
-  const userRegister = async (formData: ICreateUser) => {
+  const userRegister = async (formData: TRegisterFormValues) => {
     try {
       await api.post("/users", formData);
       console.log("Cadastro efetuado com sucesso!");
