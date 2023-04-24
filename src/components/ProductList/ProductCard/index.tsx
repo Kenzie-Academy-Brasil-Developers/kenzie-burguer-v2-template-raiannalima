@@ -9,8 +9,8 @@ const ProductCard = () => {
   const { productsList } = useContext(ProductsContext);
   const { addProductCart } = useContext(CartContext);
 
-  const cart = (event: React.SyntheticEvent) => {
-    // console.log(event);
+  const cart = (product: IProduct) => {
+    addProductCart(product);
   };
 
   return (
@@ -33,7 +33,7 @@ const ProductCard = () => {
             <StyledButton
               $buttonSize="medium"
               $buttonStyle="green"
-              onClick={cart}
+              onClick={() => cart(product)}
             >
               Adicionar
             </StyledButton>

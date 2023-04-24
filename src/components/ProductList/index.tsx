@@ -4,8 +4,6 @@ import ProductCard from "./ProductCard";
 import { StyledProductList } from "./style";
 
 const ProductList = () => {
-  // const { productsList } = useContext(ProductsContext);
-
   return (
     <StyledProductList>
       <ProductCard />
@@ -14,7 +12,3 @@ const ProductList = () => {
 };
 
 export default ProductList;
-
-// {productsList.map((currentProduct) => (
-//   <ProductCard currentProduct={currentProduct} key={currentProduct.id} />
-// ))}

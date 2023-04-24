@@ -6,7 +6,10 @@ import { IProduct } from "./ProductsContext";
 interface ICartContext {
   isOpenModalCart: boolean;
   setIsOpenModalCart: React.Dispatch<React.SetStateAction<boolean>>;
-  addProductCart: (product: React.SyntheticEvent) => void;
+  addProductCart: (product: IProduct) => void;
+  listCartProducts: IProduct[];
+  deleteProduct: (product: IProduct) => void;
+  deleteAllProducts: () => void;
 }
 
 interface ICartProviderProps {
@@ -19,32 +22,42 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const [isOpenModalCart, setIsOpenModalCart] = useState(false);
   const [listCartProducts, setListCartProducts] = useState<IProduct[]>([]);
 
-  const { productsList } = useContext(ProductsContext);
-
-  const addProductCart = (product: React.SyntheticEvent): void => {
-    console.log(product);
-    // if (productsList.some((productList) => product.id === productList.id)) {
-    //   setListCartProducts[...listCartProducts, product]
-    // }
+  const addProductCart = (product: IProduct) => {
+    if (
+      !listCartProducts.find(
+        (productCartList) => productCartList.id === product.id
+      )
+    ) {
+      setListCartProducts([...listCartProducts, product]);
+    } else {
+      console.log("erro");
+    }
   };
 
-  // Função adicionar produtos no carrinho:
-  // -> Quando eu clicar eu vou pegar o elemento e adicionar na nova lista;
+  const deleteProduct = (product: IProduct) => {
+    const filteredProduct = listCartProducts.filter((productCart) => {
+      return productCart !== product;
+    });
+    setListCartProducts(filteredProduct);
+  };
+
+  const deleteAllProducts = () => {
+    const emptyList: [] = [];
+    setListCartProducts(emptyList);
+  };
 
   return (
     <CartContext.Provider
-      value={{ isOpenModalCart, setIsOpenModalCart, addProductCart }}
+      value={{
+        isOpenModalCart,
+        setIsOpenModalCart,
+        addProductCart,
+        listCartProducts,
+        deleteProduct,
+        deleteAllProducts,
+      }}
     >
       {children}
     </CartContext.Provider>
   );
 };
-
-// const addProductCart = (product) => {
-//   if (!productsCart.some(productCart => productCart.id === product.id)) {
-//     const listCartProducts = [...productsCart, product];
-//     setProductsCart(listCartProducts);
-//   } else {
-//     console.log("Este item já está na lista.")
-//   }
-// }
